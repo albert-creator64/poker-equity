@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Poker Equity</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="header-bg"></div>
+    <div class="header-content">
+      <div class="logo">
+        <span class="suit">♠</span>
+        <h1>POKER EQUITY</h1>
+        <span class="suit">♥</span>
+      </div>
+      <p class="subtitle">калькулятор шансов</p>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="card">
+      <div class="card-title">🃏 Ваши карты</div>
+      <div class="slot-row" id="holeRow">
+        <div class="slot" data-slot="hole0"></div>
+        <div class="slot" data-slot="hole1"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🃏 Флоп</div>
+      <div class="slot-row" id="flopRow">
+        <div class="slot" data-slot="flop0"></div>
+        <div class="slot" data-slot="flop1"></div>
+        <div class="slot" data-slot="flop2"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field"><label>Соперники</label>
+        <select id="opponents" class="sel">
+          <option value="1">1 оппонент (heads-up)</option>
+          <option value="2">2 оппонента</option>
+          <option value="3">3 оппонента</option>
+          <option value="5">5 оппонентов</option>
+          <option value="8">8 оппонентов</option>
+        </select>
+      </div>
+      <div class="field"><label>Итераций расчёта</label>
+        <select id="iterations" class="sel">
+          <option value="2000">Быстро (2к)</option>
+          <option value="10000" selected>Точно (10к)</option>
+          <option value="50000">Максимально точно (50к)</option>
+        </select>
+      </div>
+      <button id="calcBtn" class="btn">Рассчитать эквити</button>
+    </div>
+
+    <div class="card" id="resultCard" style="display:none">
+      <div class="card-title">📊 Эквити</div>
+      <div class="equity-bar">
+        <div class="eq-win" id="eqWin"></div>
+        <div class="eq-tie" id="eqTie"></div>
+        <div class="eq-loss" id="eqLoss"></div>
+      </div>
+      <div class="equity-labels">
+        <div class="el"><span class="el-color win"></span>Победа <b id="winPct">0%</b></div>
+        <div class="el"><span class="el-color tie"></span>Ничья <b id="tiePct">0%</b></div>
+        <div class="el"><span class="el-color loss"></span>Поражение <b id="lossPct">0%</b></div>
+      </div>
+      <div class="equity-note" id="equityNote"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💡 Как это работает</div>
+      <p class="help-text">Введите 2 ваши карты и 3 карты флопа, затем нажмите «Рассчитать». Сайт смоделирует тысячи случайных раздач и посчитает ваш процент на победу (эквити) против оппонентов.</p>
+    </div>
+  </main>
+
+  <!-- Card picker -->
+  <div id="picker" class="picker" style="display:none">
+    <div class="picker-header">
+      <span>Выберите карту</span>
+      <button id="pickerClose" class="btn-sm">✕</button>
+    </div>
+    <div class="picker-grid" id="pickerGrid"></div>
+  </div>
+
+  <div id="toast"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
