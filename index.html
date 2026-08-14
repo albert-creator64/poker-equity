@@ -22,6 +22,14 @@
 
   <main class="content">
     <div class="card">
+      <div class="card-title">🃏 Стадия раздачи</div>
+      <div class="mode-toggle">
+        <button class="mode-btn" data-mode="preflop" id="modePreflop">До флопа</button>
+        <button class="mode-btn active" data-mode="flop" id="modeFlop">На флопе</button>
+      </div>
+    </div>
+
+    <div class="card">
       <div class="card-title">🃏 Ваши карты</div>
       <div class="slot-row" id="holeRow">
         <div class="slot" data-slot="hole0"></div>
@@ -29,7 +37,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" id="flopCard">
       <div class="card-title">🃏 Флоп</div>
       <div class="slot-row" id="flopRow">
         <div class="slot" data-slot="flop0"></div>
@@ -75,7 +83,7 @@
 
     <div class="card">
       <div class="card-title">💡 Как это работает</div>
-      <p class="help-text">Введите 2 ваши карты и 3 карты флопа, затем нажмите «Рассчитать». Сайт смоделирует тысячи случайных раздач и посчитает ваш процент на победу (эквити) против оппонентов.</p>
+      <p class="help-text"><b>До флопа</b> — введите только 2 свои карты, все 5 общих карт будут разыграны случайно. <b>На флопе</b> — введите 2 свои карты и 3 карты флопа, терн и ривер будут случайными. Нажмите «Рассчитать», сайт смоделирует тысячи раздач и посчитает ваш процент на победу.</p>
     </div>
   </main>
 
