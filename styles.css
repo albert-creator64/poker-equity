@@ -15,6 +15,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card{background:#141414;border-radius:14px;padding:18px;margin-bottom:12px;border:1px solid rgba(255,255,255,.03)}
 .card-title{font-size:15px;font-weight:700;color:#d4a843;margin-bottom:14px}
 
+.mode-toggle{display:flex;gap:6px}
+.mode-btn{flex:1;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:transparent;color:#888;font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
+.mode-btn.active{background:linear-gradient(135deg,#d4a843,#c49a3a);color:#0a0a0a;border-color:#d4a843}
+
 .slot-row{display:flex;gap:8px}
 .slot{flex:1;aspect-ratio:0.72;border-radius:10px;background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;cursor:pointer;transition:.2s;color:#999;position:relative}
 .slot.filled{background:#fff;border:2px solid #fff;color:#111}
