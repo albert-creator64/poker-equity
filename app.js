@@ -37,9 +37,9 @@ function renderSlots(){
     const c=slots[key];
     if(c){
       el.classList.add('filled');
-      el.classList.remove('red');
-      if(SUITS[c.s].c==='red')el.classList.add('red');
-      el.innerHTML='<span>'+RANK_LABEL[c.r]+'</span><span class="suite">'+SUITS[c.s].s+'</span>';
+      el.classList.toggle('red',SUITS[c.s].c==='red');
+      const rank=RANK_LABEL[c.r],suit=SUITS[c.s].s;
+      el.innerHTML='<span class="corner tl">'+rank+'<b>'+suit+'</b></span><span class="crank">'+rank+'</span><span class="csuite">'+suit+'</span><span class="corner br">'+rank+'<b>'+suit+'</b></span>';
     }else{
       el.classList.remove('filled','red');
       el.innerHTML='';
@@ -54,7 +54,7 @@ function buildPicker(){
     SUITS.forEach((s,sIdx)=>{
       const d=document.createElement('div');
       d.className='pcard'+(s.c==='red'?' red':'');
-      d.innerHTML='<span class="pr">'+RANK_LABEL[r]+'</span><span class="ps">'+s.s+'</span>';
+      d.innerHTML='<span class="ptl">'+RANK_LABEL[r]+'<b>'+s.s+'</b></span><span class="pr">'+RANK_LABEL[r]+'</span><span class="ps">'+s.s+'</span><span class="pbr">'+RANK_LABEL[r]+'<b>'+s.s+'</b></span>';
       d.addEventListener('click',()=>{
         const card={r,s:sIdx};
         const used=Object.values(slots).filter(Boolean).map(x=>x.r+'_'+x.s);
