@@ -20,13 +20,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .mode-btn.active{background:linear-gradient(135deg,#d4a843,#c49a3a);color:#0a0a0a;border-color:#d4a843}
 
 .slot-row{display:flex;gap:8px}
-.slot{flex:1;aspect-ratio:0.72;border-radius:10px;background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;cursor:pointer;transition:.2s;color:#999;position:relative}
-.slot.filled{background:#fff;border:2px solid #fff;color:#111}
-.slot.filled.red{color:#e74c3c}
-.slot.filled .suite{font-size:22px;margin-top:2px}
-.slot::after{content:'+';font-size:30px;color:#444;position:absolute}
-.slot.filled::after{content:''}
+.slot{flex:1;aspect-ratio:0.72;border-radius:12px;background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,box-shadow .2s;color:#999;position:relative}
+.slot::after{content:'+';font-size:28px;color:#444;position:absolute}
 .slot:active{transform:scale(.95)}
+
+.slot.filled{
+  background:linear-gradient(155deg,#ffffff 0%,#fbf9f5 45%,#ece7dd 100%);
+  border:2px solid #fff;
+  color:#1c1c22;
+  box-shadow:0 8px 22px rgba(0,0,0,.6),inset 0 0 0 1px rgba(0,0,0,.07),inset 0 1px 0 rgba(255,255,255,.95);
+  overflow:hidden;
+}
+.slot.filled::after{content:''}
+.slot.filled::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 62%,rgba(231,50,44,.10) 0%,transparent 62%)}
+.slot.filled .crank{font-size:26px;line-height:1;font-weight:900;position:relative}
+.slot.filled .csuite{font-size:38px;line-height:1;margin-top:3px;position:relative}
+.slot.filled.red .crank,.slot.filled.red .csuite{color:#e5322c;text-shadow:0 0 14px rgba(231,50,44,.55)}
+.slot.filled:not(.red) .crank,.slot.filled:not(.red) .csuite{color:#24252b;text-shadow:0 0 12px rgba(60,70,120,.35)}
+.slot.filled .corner{position:absolute;font-size:12px;line-height:1.15;font-weight:900;display:flex;flex-direction:column;align-items:center;z-index:2}
+.slot.filled .corner b{font-size:11px;line-height:1}
+.slot.filled .corner.tl{top:5px;left:6px}
+.slot.filled .corner.br{bottom:5px;right:6px;transform:rotate(180deg)}
 
 .field{margin-bottom:12px}
 .field label{display:block;font-size:11px;color:#666;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
@@ -54,12 +68,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 .picker{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:999;padding:20px;animation:fade .2s;overflow-y:auto}
 .picker-header{display:flex;justify-content:space-between;align-items:center;color:#d4a843;font-weight:700;margin-bottom:14px}
-.picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.pcard{padding:10px 4px;border-radius:8px;background:#fff;color:#111;text-align:center;font-weight:800;font-size:15px;cursor:pointer;position:relative;transition:.15s}
-.pcard.red{color:#e74c3c}
-.pcard .pcs.filled,.pcard:active,.pcard.picked{transform:scale(.92);box-shadow:0 0 0 2px #d4a843}
-.pcard .ps{font-size:16px;display:block}
-.pcard .pr{display:block}
+.picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pcard{
+  position:relative;padding:26px 4px 10px;border-radius:10px;
+  background:linear-gradient(155deg,#ffffff 0%,#fbf9f5 45%,#ece7dd 100%);
+  color:#24252b;text-align:center;font-weight:800;cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.95);
+  transition:transform .12s,box-shadow .15s;
+}
+.pcard.red{color:#e5322c}
+.pcard.red .pr,.pcard.red .ps{text-shadow:0 0 12px rgba(231,50,44,.55)}
+.pcard .pr{font-size:26px;line-height:1;display:block}
+.pcard .ps{font-size:34px;line-height:1;display:block;margin-top:4px}
+.pcard .ptl,.pcard .pbr{position:absolute;font-size:12px;line-height:1.15;font-weight:900;display:flex;flex-direction:column;align-items:center}
+.pcard .ptl b,.pcard .pbr b{font-size:11px;line-height:1}
+.pcard .ptl{top:5px;left:5px}
+.pcard .pbr{bottom:5px;right:5px;transform:rotate(180deg)}
+.pcard:active,.pcard.picked{transform:scale(.9);box-shadow:0 0 0 2px #d4a843,0 6px 18px rgba(0,0,0,.6)}
 
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#1c1c1c;color:#ddd;padding:12px 20px;border-radius:10px;border:1px solid #d4a843;font-size:13px;z-index:1000;transition:all .4s;opacity:0;pointer-events:none;white-space:nowrap}
 #toast.show{transform:translateX(-50%) translateY(0);opacity:1}
