@@ -5,6 +5,17 @@ const RANK_LABEL={14:'A',13:'K',12:'Q',11:'J',10:'10',9:'9',8:'8',7:'7',6:'6',5:
 let slots={hole0:null,hole1:null,flop0:null,flop1:null,flop2:null};
 let activeSlot=null;
 let calculating=false;
+let mode='flop';
+
+function setMode(m){
+  mode=m;
+  qq('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===m));
+  q('#flopCard').style.display=m==='preflop'?'none':'block';
+  if(m==='preflop'){
+    slots.flop0=slots.flop1=slots.flop2=null;
+    renderSlots();
+  }
+}
 
 function q(s){return document.querySelector(s)}
 function qq(s){return document.querySelectorAll(s)}
@@ -138,14 +149,16 @@ function shuffle(a){
   return a;
 }
 
-function calcEquity(hole,flop,oppCount,iter){
-  const own=hole.concat(flop);
+function calcEquity(hole,boardFix,oppCount,iter,preflop){
+  const own=hole.concat(boardFix);
   const deck=makeDeck(own);
   let w=0,t=0,l=0;
   for(let i=0;i<iter;i++){
     const d=shuffle(deck.slice());
-    const turnR=d[oppCount*2],riverR=d[oppCount*2+1];
-    const board=flop.concat([turnR,riverR]);
+    const fixLen=preflop?0:boardFix.length;
+    let board=[];
+    if(!preflop)board=boardFix.slice();
+    for(let k=0;k<5-fixLen;k++)board.push(d[oppCount*2+k]);
     const myScore=evalBest(hole.concat(board));
     let oppBest=-1;
     for(let o=0;o<oppCount;o++){
@@ -168,12 +181,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   q('#pickerClose').addEventListener('click',closePicker);
   q('#picker').addEventListener('click',e=>{if(e.target===q('#picker'))closePicker()});
 
+  qq('.mode-btn').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+
   q('#calcBtn').addEventListener('click',()=>{
     if(calculating)return;
     const hole=[slots.hole0,slots.hole1];
     const flop=[slots.flop0,slots.flop1,slots.flop2];
     if(!hole[0]||!hole[1])return toast('Введите 2 свои карты','err');
-    if(!flop[0]||!flop[1]||!flop[2])return toast('Введите 3 карты флопа','err');
+    const preflop=mode==='preflop';
+    if(!preflop&&(!flop[0]||!flop[1]||!flop[2]))return toast('Введите 3 карты флопа','err');
     const oppCount=+q('#opponents').value;
     const iter=+q('#iterations').value;
 
@@ -183,7 +199,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     btn.style.opacity=.6;
 
     setTimeout(()=>{
-      const res=calcEquity(hole,flop,oppCount,iter);
+      const res=calcEquity(hole,flop,oppCount,iter,preflop);
       const win=res.winPct.toFixed(1),tie=res.tiePct.toFixed(1),loss=(100-res.winPct-res.tiePct).toFixed(1);
       q('#winPct').textContent=win+'%';
       q('#tiePct').textContent=tie+'%';
@@ -192,9 +208,9 @@ document.addEventListener('DOMContentLoaded',()=>{
       q('#eqTie').style.width=res.tiePct+'%';
       q('#eqLoss').style.width=loss+'%';
       const handNames=hole.map(cardStr).join(' ');
-      const flopStr=flop.map(cardStr).join(' ');
+      const flopStr=preflop?'(все карты разыграны)':'флоп '+flop.map(cardStr).join(' ');
       const verdict=res.winPct>=50?'Вы фаворит!':'Шансы ниже 50%';
-      q('#equityNote').textContent=handNames+' против '+oppCount+' соперника(ов) · флоп '+flopStr+'. '+verdict+' Эквити рассчитано '+(iter/1000)+'k симуляций.';
+      q('#equityNote').textContent=handNames+' против '+oppCount+' соперника(ов) · '+(preflop?'до флопа':'на флопе, '+flopStr)+'. '+verdict+' Эквити рассчитано '+(iter/1000)+'k симуляций.';
       q('#resultCard').style.display='block';
       q('#resultCard').scrollIntoView({behavior:'smooth',block:'nearest'});
       calculating=false;
