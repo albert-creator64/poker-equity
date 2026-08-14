@@ -150,7 +150,7 @@ function shuffle(a){
 }
 
 function calcEquity(hole,boardFix,oppCount,iter,preflop){
-  const own=hole.concat(boardFix);
+  const own=hole.concat(boardFix).filter(x=>x);
   const deck=makeDeck(own);
   let w=0,t=0,l=0;
   for(let i=0;i<iter;i++){
